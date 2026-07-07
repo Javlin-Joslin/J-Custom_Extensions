@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="J_ExtensionMapper" format=3 uid="uid://dib25xtl0tnh8"]
+
+[ext_resource type="Script" uid="uid://bmpfxby2c7kp6" path="res://addons/J-Custom_Extendsions/extension_mapper.gd" id="1_ohadv"]
+
+[resource]
+script = ExtResource("1_ohadv")
+tresMap = {
+"tpgen": &"Palette_Combiner"
+}
+binaryMap = {
+"pgen": &"Palette_Combiner"
+}
