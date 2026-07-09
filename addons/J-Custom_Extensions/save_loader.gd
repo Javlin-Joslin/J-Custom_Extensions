@@ -23,6 +23,11 @@ func _enter_tree() -> void:
 ## Loads the map Resource and sets up the resource loader and saver by initializing them and registering them with the engine.
 func setup() -> void:
 	mapResource = load( J_ExtensionMapper.MAP_SAVE_PATH )
+	
+	# The map resource should always be available, on setup but just in case I decided to add a fallback.
+	if mapResource == null:
+		mapResource = J_ExtensionMapper.new()
+		mapResource.build_map()
 
 	_loader = custom_loader.new()
 	_loader.mapResource = mapResource
@@ -37,6 +42,10 @@ func setup() -> void:
 func build_map() -> void:
 	mapResource.build_map()
 
+func cleanup() -> void:
+	ResourceLoader.remove_resource_format_loader( _loader )
+	ResourceSaver.remove_resource_format_saver( _saver )
+	queue_free()
 #endregion
 
 
@@ -128,9 +137,9 @@ class custom_saver:
 		
 		return _get_resource_extensions(classScript)
 	
-	## Steps up through the inheritance chain of the given Script, collecting the recognized custom extensions 
-	## for the resource class represented by the Script and returning them. Used by the saver's custom
-	## "_recognize" and "_get_recognized_extensions" methods.
+	# Steps up through the inheritance chain of the given Script, collecting the recognized custom extensions 
+	# for the resource class represented by the Script and returning them. Used by the saver's custom
+	# "_recognize" and "_get_recognized_extensions" methods.
 	func _get_resource_extensions( currentScript : Script ) -> PackedStringArray:
 		var extensions : PackedStringArray = []
 
@@ -168,8 +177,8 @@ class custom_saver:
 	func _save( resource : Resource, path : String, flags : int) -> int:
 		var extension : String = path.get_extension().to_lower()
 
-		## if the intended file extension is for binary resources we write the resource directly with 
-		## FileAccess.store_var without any conversions.
+		# if the intended file extension is for binary resources we write the resource directly with 
+		# FileAccess.store_var without any conversions.
 		if mapResource.binaryMap.has(extension):
 			var file = FileAccess.open(path, FileAccess.WRITE)
 			if not file:
@@ -179,8 +188,8 @@ class custom_saver:
 			file.close()
 			return OK
 		
-		## if the intended file extension is for text-based resources we convert the resource data to
-		## a string representation and write it to the file.
+		# if the intended file extension is for text-based resources we convert the resource data to
+		# a string representation and write it to the file.
 		elif mapResource.tresMap.has(extension):
 			var file = FileAccess.open(path, FileAccess.WRITE)
 			if not file:
