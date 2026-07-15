@@ -1,6 +1,6 @@
 # J-Custom_Extensions
 
-A Godot plugin that simplifies the process of creating custom resource file types in Godot. Instead of relying on standard `.tres` (text) or `.res` (binary) formats, you can define your own custom extensions and associate them with your resource classes.
+A Godot plugin that simplifies the process of creating custom resource file types in Godot. Allows you to define custom versions of the standard `.tres` (text) or `.res` (binary) resource file extensions for your resource classes, making it easier to manage and organize your project.
 
 
 ## Installation
@@ -33,11 +33,9 @@ const binaryCustom = "mcrb"  # Custom alternative "res" extension
 
 ### Refreshing Extensions
 
-If you add or modify custom extensions in your classes they will need to be refreshed, this is done automatically when the engine is restarted but can also be done manually:
+If you add or modify custom extensions in your classes the extension mappings will need to be refreshed, this is done automatically when the engine is restarted but can also be done manually:
 1. Go to **Tools → Refresh Custom Extensions** in the Godot editor
 2. Or call `build_map()` on the extension mapper at runtime
-
-## How It Works
 
 ### Architecture
 
